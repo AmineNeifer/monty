@@ -62,8 +62,10 @@ int _isdigit(char *str)
 	unsigned int i;
 
 	for (i = 0; i < strlen(str); i++)
-		if (str[i] < '0' || str[i] > '9')
+	{
+		if (strcmp(str, "") || str[i] < '0' || str[i] > '9')
 			return (0);
+	}
 	return (1);
 }
 /**
