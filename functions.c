@@ -103,3 +103,28 @@ void (*switching_instruction(stack_t **head, unsigned int l_count))(stack_t **, 
 	dprintf(2, "L%d: unknown instruction %s\n", l_count, I1);
 	exit(EXIT_FAILURE);
 }
+/**
+ * free_all - free's all malloced pointers.
+ *
+ * @p1: first pointer.
+ * @p2: second pointer.
+ * @p3: third pointer.
+ */
+void free_all(char *p1)
+{
+	char *array[3];
+	int i;
+
+	array[0] = p1;
+	array[1] = I1;
+	array[2] = I2;
+
+	for (i = 0; i < 3; i++)
+	{
+		if (array[i] != NULL)
+		{
+			free(array[i]);
+			array[i] = NULL;
+		}
+	}
+}

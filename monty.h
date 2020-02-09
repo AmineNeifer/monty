@@ -39,5 +39,5 @@ void pall(stack_t **head, unsigned int n);
 int _isdigit(char *str);
 int search_instruction(char *line);
 void (*switching_instruction(stack_t **head, unsigned int l_count))(stack_t **, unsigned int);
-
+void free_all(char *p1);
 #endif

@@ -25,21 +25,32 @@ int main(int argc, char const *argv[])
 		switching_fail(0, NULL);
 	I2 = malloc(sizeof(char) * 20);
 	if (!I2)
+	{
+		free(I1);
 		switching_fail(0, NULL);
+	}
 	buffer = malloc(sizeof(char) * buffersize);
 	if (!buffer)
+	{
+		free(I1);
+		free(I2);
 		switching_fail(0, NULL);
+	}
 	while (test_getline != -1)
 	{
 		test_getline = getline(&buffer, &buffersize, fd);
 		if (test_getline == EOF)
 			break;
 		if (search_instruction(buffer) == -1)
+		{
+			free_all(buffer);
 			switching_fail(0, NULL);
+		}
 		func = switching_instruction(&head, l_count);
 		func(&head, l_count);
 		l_count++;
 	}
+	free_all(buffer);
 	fclose(fd);
 	return (0);
 }
