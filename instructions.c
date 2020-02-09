@@ -1,8 +1,6 @@
 #include "monty.h"
 #include <stdlib.h>
 #include <stdio.h> 
-char *I1, *I2;
-int i2;
 void push(stack_t **head, unsigned int n)
 {
 	stack_t *new;
@@ -18,15 +16,14 @@ void push(stack_t **head, unsigned int n)
 }
 void pall(stack_t **head, unsigned int n)
 {
-	(void)(n);
 	stack_t *p;
-	
+	(void)(n);
+
 	p = *head;
-	printf("just entered pall\n");
 	while (p != NULL)
 	{
-		printf("bjeh raby h->n %d\n", p->n);
+		printf("%d\n", p->n);
 		p = p->next;
 	}
 }
- 
+

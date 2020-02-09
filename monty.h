@@ -31,11 +31,13 @@ typedef struct instruction_s
 	char *opcode;
 	void (*f)(stack_t **stack, unsigned int line_number);
 } instruction_t;
+
+
 void switching_fail(int n, const char *argv);
 void push(stack_t **head, unsigned int n);
 void pall(stack_t **head, unsigned int n);
 int _isdigit(char *str);
 int search_instruction(char *line);
-void (*switching_instruction)(stack_t **head, unsigned int l_count);
+void (*switching_instruction(stack_t **head, unsigned int l_count))(stack_t **, unsigned int);
 
 #endif

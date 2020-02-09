@@ -3,8 +3,6 @@
 #include <string.h>
 #include <stdlib.h>
 #include "monty.h"
-char *I1, *I2;
-int i2;
 /**
  * search_instruction - searches for opcode and its argument
  * @line: line we're treating from the *.m file
@@ -17,7 +15,7 @@ int search_instruction(char *line)
 	token = malloc(20 * sizeof(char));
 	if (token == NULL)
 	{
-			return (-1);
+		return (-1);
 	}
 	token = strtok(line, " \n");
 	if (token)
@@ -32,39 +30,39 @@ int search_instruction(char *line)
 	return (0);
 }
 /**
-  * switching_fail - handles the malloc fail.
-  * @n: 0: malloc fail, 1: open file fail, 2: agrc != 2.
-  * Return: N/A.
-  */
+ * switching_fail - handles the malloc fail.
+ * @n: 0: malloc fail, 1: open file fail, 2: agrc != 2.
+ * Return: N/A.
+ */
 void switching_fail(int n, const char *argv)
+{
+	switch (n)
 	{
-		switch (n)
-		{
-			case 0:
-				dprintf(STDERR_FILENO, "Error: malloc failed\n");
-				exit(EXIT_FAILURE);
-				break;
-			case 1:
-				dprintf(STDERR_FILENO, "Error: Can't open file %s\n", argv);
-				exit(EXIT_FAILURE);
-				break;
-			case 2:
-				dprintf(STDERR_FILENO, "USAGE: monty file\n");
-				exit(EXIT_FAILURE);
-				break;
-		}
+		case 0:
+			dprintf(STDERR_FILENO, "Error: malloc failed\n");
+			exit(EXIT_FAILURE);
+			break;
+		case 1:
+			dprintf(STDERR_FILENO, "Error: Can't open file %s\n", argv);
+			exit(EXIT_FAILURE);
+			break;
+		case 2:
+			dprintf(STDERR_FILENO, "USAGE: monty file\n");
+			exit(EXIT_FAILURE);
+			break;
 	}
+}
 /**
-   * _isdigit - checks if string is all digits
-    * @str: string to check
-	 * Return: 1 if str is from digits otherwise 0.
-	  */
+ * _isdigit - checks if string is all digits
+ * @str: string to check
+ * Return: 1 if str is from digits otherwise 0.
+ */
 int _isdigit(char *str)
 {
 	unsigned int i;
 
 	for (i = 0; i < strlen(str); i++)
-		if (str[i] <= '0' || str[i] >= '9')
+		if (str[i] < '0' || str[i] > '9')
 			return (0);
 	return (1);
 }
@@ -73,13 +71,15 @@ int _isdigit(char *str)
  *
  *
  */
-void (*switching_instruction)(stack_t **head, unsigned int l_count)
+void (*switching_instruction(stack_t **head, unsigned int l_count))(stack_t **, unsigned int)
 {
-	instruction_t tab[3];
-		tab[0] = {"push", push(head, l_count)};
-		tab[1] = {"pall", pall(head, l_count)};
-		tab[2] = {NULL, NULL};
+	instruction_t tab[] = {
+		{"push", push},
+		{"pall", pall},
+		{NULL, NULL}
+	};
 	int i = 0;
+	(void)head;
 	while (tab[i].opcode)
 	{
 		if (strcmp(tab[i].opcode, I1) == 0)
@@ -92,13 +92,14 @@ void (*switching_instruction)(stack_t **head, unsigned int l_count)
 					exit(EXIT_FAILURE);
 				}
 				else
-					i2 = atoi(I2);
+				{
+					return (tab[i].f);
+				}
 			}
-			tab[i].f;
+			return (tab[i].f);
 		}
 		i++;
 	}
 	dprintf(2, "L%d: unknown instruction %s\n", l_count, I1);
 	exit(EXIT_FAILURE);
 }
-

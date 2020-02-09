@@ -12,6 +12,7 @@ int main(int argc, char const *argv[])
 	char *buffer;
 	ssize_t test_getline = 0;
 	size_t buffersize = 1024;
+	void (*func)(stack_t **, unsigned int);
 
 	head = NULL;
 	if (argc != 2)
@@ -35,7 +36,8 @@ int main(int argc, char const *argv[])
 			break;
 		if (search_instruction(buffer) == -1)
 			switching_fail(0, NULL);
-		switching_instruction(&head, l_count);
+		func = switching_instruction(&head, l_count);
+		func(&head, l_count);
 		l_count++;
 	}
 	fclose(fd);
